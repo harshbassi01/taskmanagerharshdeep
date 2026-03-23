@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Tasks</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Your Tasks</h1>
+
+    <form th:action="@{/user/add}" method="post" class="task-form">
+        <input type="text" name="title" placeholder="Task title" required>
+        <input type="text" name="description" placeholder="Task description" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.completed}"></td>
+            <td>
+                <form th:if="${!task.completed}" th:action="@{/user/complete/{id}(id=${task.id})}" method="post">
+                    <button type="submit">Mark Complete</button>
+                </form>
+                <span th:if="${task.completed}">Done</span>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <a href="/logout">Logout</a>
+</div>
+</body>
+</html>
